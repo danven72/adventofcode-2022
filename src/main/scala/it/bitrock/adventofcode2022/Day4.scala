@@ -15,20 +15,42 @@ class Day4 {
   }
 
   def isOverlapping(sectionAssignment: String): Boolean = {
-    val pairSection = sectionAssignment.split(",")
-    val firstSection = pairSection(0).split("-")
-    val secondSection = pairSection(1).split("-")
-    val A = firstSection(0).toInt
-    val B = firstSection(1).toInt
-    val C = secondSection(0).toInt
-    val D = secondSection(1).toInt
-    val result =
-      (
-        (C >= A && D <= B) || (A >= C && B <= D)
-      )
-    //println(s"${sectionAssignment} -> overlapping: " + result)
-    result
+    val sectionProvider = new SectionProvider(sectionAssignment)
+    sectionProvider.isThereSectionOverlap
   }
+
+  class SectionProvider(sectionAssignment: String) {
+
+    class Section(sectionExtremes: Array[String]) {
+      def start: Int = sectionExtremes(0).toInt
+      def end: Int = sectionExtremes(1).toInt
+
+      override def toString: String = {
+        s"start: $start - end: $end"
+      }
+    }
+
+    object Section {
+      def apply(value: String): Section = {
+        val pairSection = value.split("-")
+        new Section(pairSection)
+      }
+    }
+
+    val pairSection = sectionAssignment.split(",")
+
+    val firstSection = Section(pairSection(0))
+    val secondSection = Section(pairSection(1))
+
+    def isThereSectionOverlap: Boolean = {
+      (
+        (secondSection.start >= firstSection.start && secondSection.end <= firstSection.end)
+        ||
+        (firstSection.start >= secondSection.start && firstSection.end <= secondSection.end)
+      )
+    }
+  }
+
 }
 
 object Day4 extends App {
@@ -42,8 +64,8 @@ object Day4 extends App {
   println(day4.isOverlapping("2-8,3-7"))
   println(day4.isOverlapping("6-6,4-6"))
   println(day4.isOverlapping("2-6,4-8"))
-
   println(day4.isOverlapping("36-78,21-65"))
 
    */
+
 }
