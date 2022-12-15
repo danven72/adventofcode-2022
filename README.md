@@ -5,10 +5,10 @@ In order to work, you must have installed in your pc jdk >= 8, scala 2.13 and sb
 For compilation you must run:
 > sbt clean compile
 
-For running a class you must:
+For running a class:
 > sbt "runMain it.bitrock.adventofcode2022.Day1"  
 
-Each day has a matching class (so if you want to run Day2 exercise you have to change Day1 with Day2 
-in command and so on)
+Each day has a matching class, so, if you want to run Day2 exercise, you have to change Day1 with Day2 
+in command, and so on
 
 You can import the project in IntelliJ and using it for running a single class
