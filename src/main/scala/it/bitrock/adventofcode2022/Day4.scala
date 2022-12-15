@@ -3,23 +3,23 @@ package it.bitrock.adventofcode2022
 import scala.io.Source
 
 class Day4 {
-  def part1: Int = {
-    doWork(isOverlappingPart1)
-  }
 
-  def part2: Int = {
-    doWork(isOverlappingPart2)
-  }
-
-  private def doWork(overlapFunction: String => Boolean): Int = {
-    val inputFile = Source.fromResource(Day4.file)
-    val input = inputFile.mkString
-    input.trim
-      .split("\n")
-      .toList
+  def doWork(
+      inputList: List[String],
+      overlapFunction: String => Boolean
+  ): Int = {
+    inputList
       .map(sectionAssignment => overlapFunction(sectionAssignment))
       .filter(el => el == true)
       .size
+  }
+
+  private def part1: Int = {
+    doWork(extractListFromFile(Day4.file), isOverlappingPart1)
+  }
+
+  private def part2: Int = {
+    doWork(extractListFromFile(Day4.file), isOverlappingPart2)
   }
 
   def isOverlappingPart1(sectionAssignment: String): Boolean = {
@@ -32,6 +32,7 @@ class Day4 {
     !sectionProvider.noIntersection
   }
 
+  // TODO: This class should be extracted and tested
   private class SectionProvider(sectionAssignment: String) {
     class Section(sectionExtremes: Array[String]) {
       def begin: Int = sectionExtremes(0).toInt
@@ -67,7 +68,6 @@ class Day4 {
       )
     }
   }
-
 }
 
 object Day4 extends App {
@@ -75,21 +75,4 @@ object Day4 extends App {
   val day4 = new Day4
   println(s"Answer day4-part1: ${day4.part1}")
   println(s"Answer day4-part2: ${day4.part2}")
-  /*
-  println(day4.isOverlappingPart1("2-4,6-8"))
-  println(day4.isOverlappingPart1("2-3,4-5"))
-  println(day4.isOverlappingPart1("5-6,7-9"))
-  println(day4.isOverlappingPart1("2-8,3-7"))
-  println(day4.isOverlappingPart1("6-6,4-6"))
-  println(day4.isOverlappingPart1("2-6,4-8"))
-  println(day4.isOverlappingPart1("36-78,21-65"))
-
-  println(day4.isOverlappingPart2("2-4,6-8"))
-  println(day4.isOverlappingPart2("2-3,4-5"))
-  println(day4.isOverlappingPart2("5-7,7-9"))
-  println(day4.isOverlappingPart2("2-8,3-7"))
-  println(day4.isOverlappingPart2("6-6,4-6"))
-  println(day4.isOverlappingPart2("2-6,4-8"))
-  println(day4.isOverlappingPart2("36-78,21-65"))
-   */
 }

@@ -4,42 +4,46 @@ import scala.io.Source
 
 class Day1 {
 
-  def part1: Int = {
-    val inputFile = Source.fromResource(Day1.file)
-    val input = inputFile.mkString
-    input.trim
-      .split("\n\n")
-      .toList
-      .map(
-        _.split("\n")
-          .map(_.toInt)
-          .sum
-      )
-      .max
+  private def part1: Int = {
+    doWorkPart1(extractListFromFile())
   }
 
-  def part2: Int = {
-    val inputFile = Source.fromResource(Day1.file)
-    val input = inputFile.mkString
-    input.trim
-      .split("\n\n")
-      .toList
-      .map(
-        _.split("\n")
-          .map(_.toInt)
-          .sum
-      )
+  def doWorkPart1(inputList: List[String]) = {
+    extractSumCaloriesList(inputList).max
+  }
+  private def part2: Int = {
+    doWorkPart2(extractListFromFile())
+  }
+
+  def doWorkPart2(inputList: List[String]): Int = {
+    extractSumCaloriesList(inputList)
       .sortWith(_ > _)
       .slice(0, 3)
       .sum
   }
 
+  def extractListFromFile(): List[String] = {
+    val inputFile = Source.fromResource(Day1.file)
+    inputFile.mkString.trim
+      .split("\n\n")
+      .toList
+  }
+
+  def extractSumCaloriesList(inputList: List[String]): List[Int] = {
+    inputList
+      .map(
+        _.split("\n")
+          .map(_.toInt)
+          .sum
+      )
+  }
 }
 
 object Day1 extends App {
   private val file = "input-day1.txt"
 
   val day1 = new Day1
+  //println(day1.extractSumCaloriesList(day1.extractListFromFile))
   println(s"Answer day1-part1: ${day1.part1}")
   println(s"Answer day1-part2: ${day1.part2}")
 }

@@ -5,6 +5,9 @@ In order to work, you must have installed in your pc jdk >= 8, scala 2.13 and sb
 For compilation you must run:
 > sbt clean compile
 
+For running Unit test:  
+> sbt test
+
 For running a class:
 > sbt "runMain it.bitrock.adventofcode2022.Day1"  
 

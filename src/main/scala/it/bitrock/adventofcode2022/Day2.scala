@@ -4,25 +4,20 @@ import scala.io.Source
 
 class Day2 {
 
-  private def doWork(f: String => Int): Int = {
-    val inputFile = Source.fromResource(Day2.file)
-    val input = inputFile.mkString
-    input.trim
-      .split("\n")
-      .toList
-      .map(s => f(s))
-      .sum
+  def doWork(inputList: List[String], f: String => Int): Int = {
+    inputList.map(s => f(s)).sum
   }
 
-  def part1: Int = {
-    doWork(getPointsPart1)
+  private def part1: Int = {
+    doWork(extractListFromFile(Day2.file), getPointsPart1)
   }
 
-  def part2: Int = {
-    doWork(getPointsPart2)
+  private def part2: Int = {
+    doWork(extractListFromFile(Day2.file), getPointsPart2)
   }
 
-  private def getPointsPart1(inputLine: String): Int = {
+  // public for test
+  def getPointsPart1(inputLine: String): Int = {
     // win=6P, draw=3P, 0P=lost
     // A - X (1P) Rock
     // B - Y (2P) Paper
@@ -43,7 +38,8 @@ class Day2 {
     }
   }
 
-  private def getPointsPart2(inputLine: String): Int = {
+  // public for test
+  def getPointsPart2(inputLine: String): Int = {
     // win=6P, draw=3P, 0P=lost
     // A  Rock    1P  X must loose
     // B  Paper   2P  Y must draw

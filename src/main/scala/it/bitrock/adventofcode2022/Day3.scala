@@ -4,31 +4,31 @@ import scala.annotation.tailrec
 import scala.io.Source
 
 class Day3 {
-  def part1: Int = {
-    val inputFile = Source.fromResource(Day3.file)
-    val input = inputFile.mkString
-    input.trim
-      .split("\n")
-      .toList
+  private def part1: Int = {
+    doWorkPart1(extractListFromFile(Day3.file))
+  }
+
+  def doWorkPart1(inputList: List[String]): Int = {
+    inputList
       .map(s => findItem(s))
       .map(i => calculatePriority(i))
       .sum
   }
 
-  def part2: Int = {
-    val inputFile = Source.fromResource(Day3.file)
-    val input = inputFile.mkString
-    input.trim
-      .split("\n")
-      .toList
+  private def part2: Int = {
+    doWorkPart2(extractListFromFile(Day3.file))
+  }
+
+  def doWorkPart2(inputList: List[String]): Int = {
+    inputList
       .grouped(3)
       .toList
       .map(inputGroup => findBadge(inputGroup))
       .map(item => calculatePriority(item))
       .sum
   }
-
-  private def findItem(inputLine: String): Char = {
+  // public for test
+  def findItem(inputLine: String): Char = {
     @tailrec
     def doFind(parts: (String, String)): Char = {
       if (parts._2.contains(parts._1.head))
@@ -51,7 +51,8 @@ class Day3 {
       item.toInt - 96
   }
 
-  private def findBadge(inputGroup: List[String]): Char = {
+  // public for Test
+  def findBadge(inputGroup: List[String]): Char = {
     @tailrec
     def doFind(first: String, second: String, third: String): Char = {
       if (second.contains(first.head) && third.contains(first.head))
@@ -62,7 +63,6 @@ class Day3 {
 
     doFind(inputGroup(0), inputGroup(1), inputGroup(2))
   }
-
 }
 
 object Day3 extends App {
