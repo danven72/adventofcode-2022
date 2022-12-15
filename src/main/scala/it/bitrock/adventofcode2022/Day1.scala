@@ -37,7 +37,7 @@ class Day1 {
 }
 
 object Day1 extends App {
-  val file = "input-day1.txt"
+  private val file = "input-day1.txt"
 
   val day1 = new Day1
   println(s"Answer day1-part1: ${day1.part1}")

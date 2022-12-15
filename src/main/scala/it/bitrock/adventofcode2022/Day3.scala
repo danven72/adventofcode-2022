@@ -1,5 +1,6 @@
 package it.bitrock.adventofcode2022
 
+import scala.annotation.tailrec
 import scala.io.Source
 
 class Day3 {
@@ -28,6 +29,7 @@ class Day3 {
   }
 
   private def findItem(inputLine: String): Char = {
+    @tailrec
     def doFind(parts: (String, String)): Char = {
       if (parts._2.contains(parts._1.head))
         parts._1.head
@@ -50,6 +52,7 @@ class Day3 {
   }
 
   private def findBadge(inputGroup: List[String]): Char = {
+    @tailrec
     def doFind(first: String, second: String, third: String): Char = {
       if (second.contains(first.head) && third.contains(first.head))
         first.head
@@ -63,7 +66,7 @@ class Day3 {
 }
 
 object Day3 extends App {
-  val file = "input-day3.txt"
+  private val file = "input-day3.txt"
   val day3 = new Day3
 
   println(s"Answer day3-part1: ${day3.part1}")
