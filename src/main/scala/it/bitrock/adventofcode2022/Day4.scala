@@ -34,17 +34,16 @@ class Day4 {
 
   private class SectionProvider(sectionAssignment: String) {
     class Section(sectionExtremes: Array[String]) {
-      def start: Int = sectionExtremes(0).toInt
+      def begin: Int = sectionExtremes(0).toInt
       def end: Int = sectionExtremes(1).toInt
 
       override def toString: String = {
-        s"start: $start - end: $end"
+        s"start: $begin - end: $end"
       }
     }
     object Section {
       def apply(value: String): Section = {
-        val pairSection = value.split("-")
-        new Section(pairSection)
+        new Section(value.split("-"))
       }
     }
 
@@ -54,17 +53,17 @@ class Day4 {
 
     def isThereSectionOverlap: Boolean = {
       (
-        (secondSection.start >= firstSection.start && secondSection.end <= firstSection.end)
+        (secondSection.begin >= firstSection.begin && secondSection.end <= firstSection.end)
         ||
-        (firstSection.start >= secondSection.start && firstSection.end <= secondSection.end)
+        (firstSection.begin >= secondSection.begin && firstSection.end <= secondSection.end)
       )
     }
 
     def noIntersection: Boolean = {
       (
-        (secondSection.start > firstSection.end && secondSection.end > firstSection.end)
+        (secondSection.begin > firstSection.end && secondSection.end > firstSection.end)
         ||
-        (firstSection.start > secondSection.end && firstSection.end > secondSection.end)
+        (firstSection.begin > secondSection.end && firstSection.end > secondSection.end)
       )
     }
   }
