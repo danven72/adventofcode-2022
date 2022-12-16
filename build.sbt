@@ -12,3 +12,5 @@ val scalaTestVersion = "3.2.14"
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % scalaTestVersion % Test
 )
+
+//mainClass in (Compile, run) := Some("it.bitrock.adventofcode2022.Main")

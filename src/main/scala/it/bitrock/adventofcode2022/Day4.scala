@@ -1,8 +1,6 @@
 package it.bitrock.adventofcode2022
 
-import scala.io.Source
-
-class Day4 {
+class Day4(order: Int = 4) extends AbstractDay(order) {
 
   def doWork(
       inputList: List[String],
@@ -14,12 +12,12 @@ class Day4 {
       .size
   }
 
-  private def part1: Int = {
-    doWork(extractListFromFile(Day4.file), isOverlappingPart1)
+  override protected def part1: Int = {
+    doWork(extractListFromFile(file), isOverlappingPart1)
   }
 
-  private def part2: Int = {
-    doWork(extractListFromFile(Day4.file), isOverlappingPart2)
+  override protected def part2: Int = {
+    doWork(extractListFromFile(file), isOverlappingPart2)
   }
 
   def isOverlappingPart1(sectionAssignment: String): Boolean = {
@@ -71,8 +69,6 @@ class Day4 {
 }
 
 object Day4 extends App {
-  private val file = "input-day4.txt"
   val day4 = new Day4
-  println(s"Answer day4-part1: ${day4.part1}")
-  println(s"Answer day4-part2: ${day4.part2}")
+  day4.printResult()
 }

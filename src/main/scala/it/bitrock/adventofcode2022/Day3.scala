@@ -1,11 +1,10 @@
 package it.bitrock.adventofcode2022
 
 import scala.annotation.tailrec
-import scala.io.Source
 
-class Day3 {
-  private def part1: Int = {
-    doWorkPart1(extractListFromFile(Day3.file))
+class Day3(order: Int = 3) extends AbstractDay(order) {
+  override protected def part1: Int = {
+    doWorkPart1(extractListFromFile(file))
   }
 
   def doWorkPart1(inputList: List[String]): Int = {
@@ -15,8 +14,8 @@ class Day3 {
       .sum
   }
 
-  private def part2: Int = {
-    doWorkPart2(extractListFromFile(Day3.file))
+  override protected def part2: Int = {
+    doWorkPart2(extractListFromFile(file))
   }
 
   def doWorkPart2(inputList: List[String]): Int = {
@@ -66,9 +65,6 @@ class Day3 {
 }
 
 object Day3 extends App {
-  private val file = "input-day3.txt"
   val day3 = new Day3
-
-  println(s"Answer day3-part1: ${day3.part1}")
-  println(s"Answer day3-part2: ${day3.part2}")
+  day3.printResult()
 }

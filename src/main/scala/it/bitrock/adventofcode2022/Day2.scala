@@ -1,19 +1,17 @@
 package it.bitrock.adventofcode2022
 
-import scala.io.Source
-
-class Day2 {
+class Day2(order: Int = 2) extends AbstractDay(order) {
 
   def doWork(inputList: List[String], f: String => Int): Int = {
     inputList.map(s => f(s)).sum
   }
 
-  private def part1: Int = {
-    doWork(extractListFromFile(Day2.file), getPointsPart1)
+  override protected def part1: Int = {
+    doWork(extractListFromFile(file), getPointsPart1)
   }
 
-  private def part2: Int = {
-    doWork(extractListFromFile(Day2.file), getPointsPart2)
+  override protected def part2: Int = {
+    doWork(extractListFromFile(file), getPointsPart2)
   }
 
   // public for test
@@ -63,8 +61,6 @@ class Day2 {
 }
 
 object Day2 extends App {
-  val file = "input-day2.txt"
   val day2 = new Day2
-  println(s"Answer day2-part1: ${day2.part1}")
-  println(s"Answer day2-part2: ${day2.part2}")
+  day2.printResult()
 }

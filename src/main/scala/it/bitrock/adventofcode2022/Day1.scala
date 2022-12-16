@@ -2,16 +2,17 @@ package it.bitrock.adventofcode2022
 
 import scala.io.Source
 
-class Day1 {
+class Day1(order: Int = 1) extends AbstractDay(order) {
 
-  private def part1: Int = {
+  override protected def part1: Int = {
     doWorkPart1(extractListFromFile())
   }
 
   def doWorkPart1(inputList: List[String]) = {
     extractCaloriesSumList(inputList).max
   }
-  private def part2: Int = {
+
+  override protected def part2: Int = {
     doWorkPart2(extractListFromFile())
   }
 
@@ -23,7 +24,7 @@ class Day1 {
   }
 
   def extractListFromFile(): List[String] = {
-    val inputFile = Source.fromResource(Day1.file)
+    val inputFile = Source.fromResource(file)
     inputFile.mkString.trim
       .split("\n\n")
       .toList
@@ -40,9 +41,6 @@ class Day1 {
 }
 
 object Day1 extends App {
-  private val file = "input-day1.txt"
-
   val day1 = new Day1
-  println(s"Answer day1-part1: ${day1.part1}")
-  println(s"Answer day1-part2: ${day1.part2}")
+  day1.printResult()
 }
