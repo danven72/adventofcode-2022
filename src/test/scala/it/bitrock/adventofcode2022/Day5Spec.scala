@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuite
 import scala.collection.mutable.Stack
 
 class Day5Spec extends AnyFunSuite {
-  val day5 = Day5
+  val day5 = new Day5
 
   test("parseMove") {
     val moveInputStr = "move 5 from 3 to 6"
@@ -57,6 +57,51 @@ class Day5Spec extends AnyFunSuite {
     val inputStr2 = "[M]                     [N] [Z]    "
     //crateStacks.parseLine(inputStr1)
     val newCrateStack = crateStacks.parseLine(inputStr2)
-    println(newCrateStack.popLastLine())
+    println(newCrateStack.stacksStatusResult())
+  }
+
+  test("move") {
+    val stacksLine = " 1   2   3 "
+    val inputStateList =
+      List(
+        stacksLine,
+        "[Z] [M] [P]",
+        "[N] [C]    ",
+        "    [D]    "
+      )
+    val crateStacks = day5.initCrateStacks(inputStateList)
+    println("1->" + crateStacks.getCrateStackAt(1))
+    println("2->" + crateStacks.getCrateStackAt(2))
+    println("3->" + crateStacks.getCrateStackAt(3))
+
+    val move = Move("move 1 from 2 to 1")
+    val newCrateStacks: CrateStacks = crateStacks.applyMove(move)
+    println("**********")
+    println("1->" + newCrateStacks.getCrateStackAt(1))
+    println("2->" + newCrateStacks.getCrateStackAt(2))
+    println("3->" + newCrateStacks.getCrateStackAt(3))
+
+    assert(newCrateStacks.getCrateStackAt(1) == Stack(Crate("[D]"), Crate("[N]"), Crate("[Z]")))
+    assert(newCrateStacks.getCrateStackAt(2) == Stack(Crate("[C]"), Crate("[M]")))
+    assert(newCrateStacks.getCrateStackAt(3) == Stack(Crate("[P]")))
+  }
+
+  test("applyMoveList") {
+    val stacksLine = " 1   2   3 "
+    val inputStateList =
+      List(
+        stacksLine,
+        "[Z] [M] [P]",
+        "[N] [C]    ",
+        "    [D]    "
+      )
+    val crateStacks = day5.initCrateStacks(inputStateList)
+    val moves = List(Move(1, 2, 1), Move(3, 1, 3), Move(2, 2, 1), Move(1, 1, 2))
+    val newCrateStacks = day5.applyMoveList(moves, crateStacks)
+    println("1->" + newCrateStacks.getCrateStackAt(1))
+    println("2->" + newCrateStacks.getCrateStackAt(2))
+    println("3->" + newCrateStacks.getCrateStackAt(3))
+    println(newCrateStacks.stacksStatusResult())
+
   }
 }

@@ -9,7 +9,14 @@ class Day5(order: Int = 5) extends AbstractDay(order) {
 
   override protected def part2: Any = ???
 
-  def doWorkPart1() = {
+  def doWorkPart1(): String = {
+    val inputParseResult = parseFileInput
+    val loadedCrateStacks = initCrateStacks(inputParseResult.beginPositionList)
+    val finalCrateStacks = applyMoveList(inputParseResult.inputMovesList, loadedCrateStacks)
+    finalCrateStacks.stacksStatusResult()
+  }
+
+  def initCrateStacks(beginPositionList: List[String]): CrateStacks = {
     def doInitCrateStacks(
         initStatusList: List[String],
         crateStack: CrateStacks
@@ -22,16 +29,21 @@ class Day5(order: Int = 5) extends AbstractDay(order) {
       }
     }
 
-    val inputParseResult = parseFileInput
-    val initStatusList = inputParseResult._1
-    val initCrateStacks = CrateStacks(initStatusList(0))
-    val loadedCrateStacks =
-      doInitCrateStacks(initStatusList.tail, initCrateStacks)
-    //println(loadedCrateStacks)
-    println(loadedCrateStacks.popLastLine())
+    doInitCrateStacks(
+      beginPositionList.tail,
+      CrateStacks(beginPositionList.head)
+    )
   }
 
-  def parseFileInput: (List[String], List[Move]) = {
+  def applyMoveList(moveList: List[Move], initCrateStacks: CrateStacks): CrateStacks = {
+    moveList match {
+      case move :: tail =>
+        applyMoveList(tail, initCrateStacks.applyMove(move))
+      case Nil => initCrateStacks
+
+    }
+  }
+  def parseFileInput: InputParseResult = {
     val inputFile = Source.fromResource(file)
     val inputFileList = inputFile.mkString.trim
       .split("\n\n")
@@ -48,9 +60,14 @@ class Day5(order: Int = 5) extends AbstractDay(order) {
         .flatMap(s => s.split("\n").toList)
         .map(m => Move(m))
 
-    (beginPositionList, movesList)
+    InputParseResult(beginPositionList, movesList)
   }
 }
+
+case class InputParseResult(
+    beginPositionList: List[String],
+    inputMovesList: List[Move]
+) {}
 
 case class Move(cratesAmount: Int, stackFrom: Int, stackTo: Int) {}
 
@@ -67,15 +84,21 @@ object Move {
 
 case class Crate(label: String) {
   def isEmpty(): Boolean = label.trim.isEmpty
-
 }
 
 case class CrateStacks(status: Map[Int, Stack[Crate]]) {
+  def applyMove(move: Move): CrateStacks = {
+    for(i<- 1 to move.cratesAmount) {
+      getCrateStackAt(move.stackTo).push(getCrateStackAt(move.stackFrom).pop)
+    }
+    CrateStacks(status)
+  }
+
   def getCrateStackAt(i: Int) = {
     status.get(i).get
   }
 
-  def popLastLine(): String = {
+  def stacksStatusResult(): String = {
     val keyList = getKeyList
     val crateStacksSb = new StringBuilder()
     val labelStacksSb = new StringBuilder
@@ -83,7 +106,7 @@ case class CrateStacks(status: Map[Int, Stack[Crate]]) {
       labelStacksSb.append(" ").append(i).append(" ")
       val stack = getCrateStackAt(i)
       if (!stack.isEmpty) {
-        val crate = stack.pop()
+        val crate = stack(0)//stack.pop()
         crateStacksSb.append(crate.label)
       } else
         crateStacksSb.append("   ")
@@ -145,7 +168,7 @@ object CrateStacks {
 
 object Day5 extends App {
   val day5 = new Day5
-  day5.doWorkPart1()
+  println(day5.doWorkPart1())
 
   //println(s"initPositions: ${day5.parseFileInput._1}")
   /*
@@ -158,5 +181,5 @@ object Day5 extends App {
   println(last)
 
    */
-  //println(s"moves: ${day5.parseFileInput._2}")
+  // println(s"moves: ${day5.parseFileInput.inputMovesList}")
 }
