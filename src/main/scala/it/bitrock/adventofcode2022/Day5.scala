@@ -5,20 +5,17 @@ import it.bitrock.adventofcode2022
 import scala.collection.mutable
 import scala.io.Source
 import scala.collection.mutable.Stack
-
+//TODO: Tray to refactor this day in a more scala style: try to transform  for-loop in something else
+//      maybe object model needs changes
 class Day5(order: Int = 5) extends AbstractDay(order) {
-  override protected def part1: Any = ???
-
-  override protected def part2: Any = ???
-
-  def doWorkPart1(): String = {
+  override protected def part1: String = {
     val inputParseResult = parseFileInput
     val loadedCrateStacks = initCrateStacks(inputParseResult.beginPositionList)
     val finalCrateStacks = applyMoveList(inputParseResult.inputMovesList, loadedCrateStacks)
     finalCrateStacks.stacksStatusResult()
   }
 
-  def doWorkPart2(): String = {
+  override protected def part2: String = {
     val inputParseResult = parseFileInput
     val loadedCrateStacks = initCrateStacks(inputParseResult.beginPositionList)
     val finalCrateStacks = applyMoveListPart2(inputParseResult.inputMovesList, loadedCrateStacks)
@@ -200,18 +197,6 @@ object CrateStacks {
 
 object Day5 extends App {
   val day5 = new Day5
-  println(day5.doWorkPart2())
-
-  //println(s"initPositions: ${day5.parseFileInput._1}")
-  /*
-  val initStatusList = day5.parseFileInput._1
-  val crateStacks = CrateStacks(initStatusList(0))
-  crateStacks.parseLine(initStatusList(1))
-  crateStacks.parseLine(initStatusList(2))
-  crateStacks.parseLine(initStatusList(3))
-  val last = crateStacks.parseLine(initStatusList(4))
-  println(last)
-
-   */
-  // println(s"moves: ${day5.parseFileInput.inputMovesList}")
+  println(s"Part1 - result: --> ${day5.part1}")
+  println(s"Part2 - result: --> ${day5.part2}")
 }
