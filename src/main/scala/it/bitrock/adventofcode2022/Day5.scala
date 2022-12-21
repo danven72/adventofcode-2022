@@ -1,5 +1,7 @@
 package it.bitrock.adventofcode2022
 
+import it.bitrock.adventofcode2022
+
 import scala.collection.mutable
 import scala.io.Source
 import scala.collection.mutable.Stack
@@ -13,6 +15,13 @@ class Day5(order: Int = 5) extends AbstractDay(order) {
     val inputParseResult = parseFileInput
     val loadedCrateStacks = initCrateStacks(inputParseResult.beginPositionList)
     val finalCrateStacks = applyMoveList(inputParseResult.inputMovesList, loadedCrateStacks)
+    finalCrateStacks.stacksStatusResult()
+  }
+
+  def doWorkPart2(): String = {
+    val inputParseResult = parseFileInput
+    val loadedCrateStacks = initCrateStacks(inputParseResult.beginPositionList)
+    val finalCrateStacks = applyMoveListPart2(inputParseResult.inputMovesList, loadedCrateStacks)
     finalCrateStacks.stacksStatusResult()
   }
 
@@ -40,10 +49,18 @@ class Day5(order: Int = 5) extends AbstractDay(order) {
       case move :: tail =>
         applyMoveList(tail, initCrateStacks.applyMove(move))
       case Nil => initCrateStacks
-
     }
   }
-  def parseFileInput: InputParseResult = {
+
+  def applyMoveListPart2(moveList: List[Move], initCrateStacks: CrateStacks): CrateStacks = {
+    moveList match {
+      case move :: tail =>
+        applyMoveListPart2(tail, initCrateStacks.applyMovePart2(move))
+      case Nil => initCrateStacks
+    }
+  }
+
+  private def parseFileInput: InputParseResult = {
     val inputFile = Source.fromResource(file)
     val inputFileList = inputFile.mkString.trim
       .split("\n\n")
@@ -64,7 +81,7 @@ class Day5(order: Int = 5) extends AbstractDay(order) {
   }
 }
 
-case class InputParseResult(
+private case class InputParseResult(
     beginPositionList: List[String],
     inputMovesList: List[Move]
 ) {}
@@ -94,7 +111,22 @@ case class CrateStacks(status: Map[Int, Stack[Crate]]) {
     CrateStacks(status)
   }
 
-  def getCrateStackAt(i: Int) = {
+  def applyMovePart2(move: Move): CrateStacks = {
+    val tempStack = mutable.Stack[Crate]()
+    for (i <- 1 to move.cratesAmount) {
+      tempStack.push(getCrateStackAt(move.stackFrom).pop)
+    }
+    //println(s"tempStackContent: $tempStack")
+    val cratesToMove: scala.collection.Seq[Crate] = tempStack.popAll()
+    getCrateStackAt(move.stackTo).pushAll(cratesToMove)
+
+    CrateStacks(status)
+  }
+
+
+
+
+  def getCrateStackAt(i: Int): mutable.Stack[Crate] = {
     status.get(i).get
   }
 
@@ -168,7 +200,7 @@ object CrateStacks {
 
 object Day5 extends App {
   val day5 = new Day5
-  println(day5.doWorkPart1())
+  println(day5.doWorkPart2())
 
   //println(s"initPositions: ${day5.parseFileInput._1}")
   /*

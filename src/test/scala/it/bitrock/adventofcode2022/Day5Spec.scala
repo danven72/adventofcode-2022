@@ -1,6 +1,7 @@
 package it.bitrock.adventofcode2022
 
 import org.scalatest.funsuite.AnyFunSuite
+
 import scala.collection.mutable.Stack
 
 class Day5Spec extends AnyFunSuite {
@@ -86,7 +87,7 @@ class Day5Spec extends AnyFunSuite {
     assert(newCrateStacks.getCrateStackAt(3) == Stack(Crate("[P]")))
   }
 
-  test("applyMoveList") {
+  test("applyMoveListPart1") {
     val stacksLine = " 1   2   3 "
     val inputStateList =
       List(
@@ -98,10 +99,39 @@ class Day5Spec extends AnyFunSuite {
     val crateStacks = day5.initCrateStacks(inputStateList)
     val moves = List(Move(1, 2, 1), Move(3, 1, 3), Move(2, 2, 1), Move(1, 1, 2))
     val newCrateStacks = day5.applyMoveList(moves, crateStacks)
-    println("1->" + newCrateStacks.getCrateStackAt(1))
-    println("2->" + newCrateStacks.getCrateStackAt(2))
-    println("3->" + newCrateStacks.getCrateStackAt(3))
+    //println("1->" + newCrateStacks.getCrateStackAt(1))
+    //println("2->" + newCrateStacks.getCrateStackAt(2))
+    //println("3->" + newCrateStacks.getCrateStackAt(3))
     println(newCrateStacks.stacksStatusResult())
+    assert(newCrateStacks.getCrateStackAt(1) == Stack(Crate("[C]")))
+    assert(newCrateStacks.getCrateStackAt(2) == Stack(Crate("[M]")))
+    assert(newCrateStacks.getCrateStackAt(3) == Stack(Crate("[Z]"), Crate("[N]"), Crate("[D]"), Crate("[P]")))
 
   }
+  test("applyMoveListPart2") {
+    val stacksLine = " 1   2   3 "
+    val inputStateList =
+      List(
+        stacksLine,
+        "[Z] [M] [P]",
+        "[N] [C]    ",
+        "    [D]    "
+      )
+    val crateStacks = day5.initCrateStacks(inputStateList)
+    //println("1->" + crateStacks.getCrateStackAt(1))
+    //println("2->" + crateStacks.getCrateStackAt(2))
+    //println("3->" + crateStacks.getCrateStackAt(3))
+    val moves = List(Move(1, 2, 1), Move(3, 1, 3), Move(2, 2, 1), Move(1, 1, 2))
+    val newCrateStacks = day5.applyMoveListPart2(moves, crateStacks)
+    //println("1->" + newCrateStacks.getCrateStackAt(1))
+    //println("2->" + newCrateStacks.getCrateStackAt(2))
+    //println("3->" + newCrateStacks.getCrateStackAt(3))
+    println(newCrateStacks.stacksStatusResult())
+    assert(newCrateStacks.getCrateStackAt(1) == Stack(Crate("[M]")))
+    assert(newCrateStacks.getCrateStackAt(2) == Stack(Crate("[C]")))
+    assert(newCrateStacks.getCrateStackAt(3) == Stack(Crate("[D]"), Crate("[N]"), Crate("[Z]"), Crate("[P]")))
+
+
+  }
+
 }
