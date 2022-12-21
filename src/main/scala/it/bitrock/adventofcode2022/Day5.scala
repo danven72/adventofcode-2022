@@ -5,7 +5,7 @@ import it.bitrock.adventofcode2022
 import scala.collection.mutable
 import scala.io.Source
 import scala.collection.mutable.Stack
-//TODO: Tray to refactor this day in a more scala style: try to transform  for-loop in something else
+//TODO: Try to refactor this day in a more scala style: try to transform  for-loop in something else
 //      maybe object model needs changes
 class Day5(order: Int = 5) extends AbstractDay(order) {
   override protected def part1: String = {
@@ -197,6 +197,5 @@ object CrateStacks {
 
 object Day5 extends App {
   val day5 = new Day5
-  println(s"Part1 - result: --> ${day5.part1}")
-  println(s"Part2 - result: --> ${day5.part2}")
+  day5.printResult()
 }
